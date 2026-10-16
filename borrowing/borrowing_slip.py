@@ -66,7 +66,6 @@ class BorrowingSlip:
 
     @property
     def borrower(self) -> IBorrower:
-        """Người mượn thiết bị."""
         return self._borrower
 
     @property
@@ -183,11 +182,9 @@ class BorrowingSlip:
                 f"không được trước ngày mượn ({target_item.borrowed_date.strftime('%Y-%m-%d')})."
             )
 
-        # Ghi nhận trả và cập nhật trạng thái thiết bị
         target_item.return_item(returned_date)
         target_item.device.mark_as_available()
 
-        # Tính tiền phạt trễ hạn của thiết bị này
         return target_item.calculate_late_fee(daily_fee=self.DEFAULT_DAILY_LATE_FEE)
 
     def ReturnDevice(self, device_id: str, returned_date: datetime) -> float:
